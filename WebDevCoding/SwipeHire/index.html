@@ -63,7 +63,7 @@
     <script>
         let CurrentResume = 0;
         let goodResumes = 0;
-        let badResumes
+        let badResumes = 0;
         const resumes = [
             {
                 name: "Alex Chen",
@@ -155,13 +155,40 @@
                             <p>Skills: ${resume.skills[0]}, ${resume.skills[1]}, ${resume.skills[2]}, ${resume.skills[3]}</p>
                         </div>
                     `
-                    }
+                }
+                function back(){
+                    if(CurrentResume > 0){
+                        CurrentResume -= 1;
+                        renderResume(CurrentResume);
+                    } 
+                    
+                }
+                function next(){
+                    if(CurrentResume < (resumes.length - 1)){
+                        CurrentResume+=1;
+                        renderResume(CurrentResume);
+                    } 
+                    
+                }
+                
 
-                let hireButton = document.querySelector("good");
-                hireButton.addEventListener("click", function(){
-
-
+                let interviewButton = document.querySelector(".interview");
+                interviewButton.addEventListener("click", function(){
+                    goodResumes+=1;
+                    next();
                 });
+
+                let tossButton = document.querySelector(".trash");
+                tossButton.addEventListener("click", function(){
+                    badResumes+=1;
+                    next();
+                });
+
+                let backButton = document.querySelector(".back");
+                backButton.addEventListener("click", () => back());
+
+                let nextButton = document.querySelector(".next");
+                nextButton.addEventListener("click", () => next());
 
                 renderResume(0);
             });
@@ -175,23 +202,27 @@
 
     <main>
         <div class="resumeCard">
-            <div class="personDetails">
-                <h3>NAME + ROLE</h3>
-            </div>
-            <div class="bulletPoints">
-                <ul>
-                    <li>BulletPoint1</li>
-                    <li>BulletPoint1</li>
-                    <li>BulletPoint1</li>
-                </ul>
-            </div>
-            <div class="skills">
-                <p>Skills: skill1+skill2+skill3+skill4</p>
-            </div>
+                        <div class="personDetails">
+                            <h3>NAME + ROLE</h3>
+                        </div>
+                        <div class="bulletPoints">
+                            <ul>
+                                <li>BulletPoint1</li>
+                                <li>BulletPoint1</li>
+                                <li>BulletPoint1</li>
+                            </ul>
+                        </div>
+                        <div class="skills">
+                            <p>Skills: skill1+skill2+skill3+skill4</p>
+                        </div>
         </div>
-        <div class="buttonRow">
-            <button class="good">Hire</button>
-            <button class="bad">Trash</button>
+        <div class="buttonRow" id="QualityRow">
+            <button class="interview">Interview</button>
+            <button class="trash">Trash</button>
+        </div>
+        <div class="traversalRow">
+            <button class="back">Back</button>
+            <button class="next">Next</button>
         </div>
     </main>
 
