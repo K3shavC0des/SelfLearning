@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwipeHire</title>
+
     <style>
         body {
             background-color: beige;
@@ -20,34 +21,29 @@
             justify-content: space-around;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: large;
-            background-color:cornflowerblue;
+            background-color: cornflowerblue;
         }
 
-        .resumeCard{
-            max-height: 500px;
+        .resumeCard {
             max-width: 500px;
             padding: 10px;
             margin: 10px;
             border-radius: 5px;
-            background-color:darkgray;
+            background-color: darkgray;
             text-align: center;
-            align-items: center;
-            
         }
 
-        .buttonRow{
+        .buttonRow {
             display: flex;
-            text-shadow: 2px;
-            border: 2px;
             justify-content: center;
             margin: 15px;
             padding: 15px;
-
+            gap: 10px;
         }
 
         button {
             padding: 15px;
-            transition: transform 0.3s ease;  
+            transition: transform 0.3s ease;
         }
 
         button:hover {
@@ -58,177 +54,157 @@
             list-style: none;
             padding: 0;
         }
-
     </style>
+
     <script>
         let CurrentResume = 0;
         let goodResumes = 0;
         let badResumes = 0;
+
         const resumes = [
             {
                 name: "Alex Chen",
                 role: "Backend Intern Applicant",
                 bullets: [
-                "Built REST API in Flask serving 1k req/day",
-                "Reduced query latency 40% via PostgreSQL indexing",
-                "Shipped JWT auth and CI/CD on Render"
+                    "Built REST API in Flask serving 1k req/day",
+                    "Reduced query latency 40% via PostgreSQL indexing",
+                    "Shipped JWT auth and CI/CD on Render"
                 ],
                 skills: ["Python", "Flask", "PostgreSQL", "Docker"]
             },
-
             {
                 name: "Sarah Johnson",
                 role: "Frontend Intern Applicant",
                 bullets: [
-                "Built responsive websites with HTML, CSS, and JavaScript",
-                "Improved page load speed by 35%",
-                "Developed reusable React components"
+                    "Built responsive websites with HTML, CSS, JavaScript",
+                    "Improved page load speed by 35%",
+                    "Developed reusable React components"
                 ],
                 skills: ["HTML", "CSS", "JavaScript", "React"]
             },
-
             {
                 name: "Michael Patel",
-                role: "Machine Learning Intern Applicant",
+                role: "ML Intern Applicant",
                 bullets: [
-                "Trained image classification model with 94% accuracy",
-                "Cleaned and analyzed 50k-row dataset using Pandas",
-                "Visualized results using Matplotlib"
+                    "Trained image classification model (94% accuracy)",
+                    "Cleaned dataset with Pandas",
+                    "Visualized results using Matplotlib"
                 ],
                 skills: ["Python", "Pandas", "Scikit-learn", "Matplotlib"]
-            },
-
-            {
-                name: "Emily Davis",
-                role: "Data Science Intern Applicant",
-                bullets: [
-                "Built dashboard in Tableau",
-                "Created SQL queries for business reports",
-                "Automated data cleaning with Python"
-                ],
-                skills: ["SQL", "Python", "Tableau", "Excel"]
-            },
-
-            {
-                name: "David Kim",
-                role: "Mobile App Intern Applicant",
-                bullets: [
-                "Developed Android app in Kotlin",
-                "Integrated Firebase Authentication",
-                "Published beta app to testers"
-                ],
-                skills: ["Kotlin", "Android Studio", "Firebase", "Git"]
-            },
-
-            {
-                name: "Olivia Brown",
-                role: "Full Stack Intern Applicant",
-                bullets: [
-                "Built MERN stack web application",
-                "Designed MongoDB database schema",
-                "Deployed application on Vercel"
-                ],
-                skills: ["MongoDB", "Express", "React", "Node.js"]
             }
-            ];
+        ];
 
-            document.addEventListener("DOMContentLoaded", function(){
-                
-                function renderResume(index){
-                    //print out what is happening 
-                    
-                    console.log("Displaying Resume #"+ CurrentResume);
-                    const displayLocation = document.querySelector(".resumeCard");
-                    const resume = resumes[index];
-                    displayLocation.innerHTML = `
-                        <div class="personDetails">
-                            <h3>${resume.name} + ${resume.role}</h3>
-                        </div>
-                        <div class="bulletPoints">
-                            <ul>
-                                <li>${resume.bullets[0]}</li>
-                                <li>${resume.bullets[1]}</li>
-                                <li>${resume.bullets[2]}</li>
-                            </ul>
-                        </div>
-                        <div class="skills">
-                            <p>Skills: ${resume.skills[0]}, ${resume.skills[1]}, ${resume.skills[2]}, ${resume.skills[3]}</p>
-                        </div>
-                    `
-                }
-                function back(){
-                    if(CurrentResume > 0){
-                        CurrentResume -= 1;
-                        renderResume(CurrentResume);
-                    } 
-                    
-                }
-                function next(){
-                    if(CurrentResume < (resumes.length - 1)){
-                        CurrentResume+=1;
-                        renderResume(CurrentResume);
-                    } 
-                    
-                }
-                
+        function updateStats() {
+            document.getElementById("goodCount").textContent = goodResumes;
+            document.getElementById("badCount").textContent = badResumes;
+            document.getElementById("remainingCount").textContent =
+                resumes.length - CurrentResume;
+        }
 
-                let interviewButton = document.querySelector(".interview");
-                interviewButton.addEventListener("click", function(){
-                    goodResumes+=1;
-                    next();
+        function renderResume(index) {
+            const display = document.querySelector(".resumeCard");
+
+            if (index >= resumes.length) {
+                display.innerHTML = `
+                    <h2>No more resumes!</h2>
+                    <p>Interviewed: ${goodResumes}</p>
+                    <p>Rejected: ${badResumes}</p>
+                    <button id="resetBtn">Reset</button>
+                `;
+
+                document.getElementById("resetBtn").addEventListener("click", () => {
+                    CurrentResume = 0;
+                    goodResumes = 0;
+                    badResumes = 0;
+                    renderResume(CurrentResume);
+                    updateStats();
                 });
 
-                let tossButton = document.querySelector(".trash");
-                tossButton.addEventListener("click", function(){
-                    badResumes+=1;
-                    next();
-                });
+                return;
+            }
 
-                let backButton = document.querySelector(".back");
-                backButton.addEventListener("click", () => back());
+            const resume = resumes[index];
 
-                let nextButton = document.querySelector(".next");
-                nextButton.addEventListener("click", () => next());
+            display.innerHTML = `
+                <div class="personDetails">
+                    <h3>${resume.name} — ${resume.role}</h3>
+                </div>
 
-                renderResume(0);
+                <div class="bulletPoints">
+                    <ul>
+                        ${resume.bullets.map(b => `<li>${b}</li>`).join("")}
+                    </ul>
+                </div>
+
+                <div class="skills">
+                    <p>Skills: ${resume.skills.join(", ")}</p>
+                </div>
+            `;
+
+            updateStats();
+        }
+
+        function next() {
+            CurrentResume++;
+            renderResume(CurrentResume);
+        }
+
+        function back() {
+            if (CurrentResume > 0) {
+                CurrentResume--;
+                renderResume(CurrentResume);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".interview").addEventListener("click", () => {
+                goodResumes++;
+                next();
             });
 
+            document.querySelector(".trash").addEventListener("click", () => {
+                badResumes++;
+                next();
+            });
+
+            document.querySelector(".back").addEventListener("click", back);
+            document.querySelector(".next").addEventListener("click", next);
+
+            renderResume(0);
+        });
     </script>
 </head>
+
+<body>
+
     <header>
         <h1>Keshav Kumar</h1>
         <h1>SwipeHire</h1>
     </header>
 
     <main>
-        <div class="resumeCard">
-                        <div class="personDetails">
-                            <h3>NAME + ROLE</h3>
-                        </div>
-                        <div class="bulletPoints">
-                            <ul>
-                                <li>BulletPoint1</li>
-                                <li>BulletPoint1</li>
-                                <li>BulletPoint1</li>
-                            </ul>
-                        </div>
-                        <div class="skills">
-                            <p>Skills: skill1+skill2+skill3+skill4</p>
-                        </div>
+
+        <div class="stats">
+            <p>
+                Interviewed: <span id="goodCount">0</span> |
+                Rejected: <span id="badCount">0</span> |
+                Remaining: <span id="remainingCount">0</span>
+            </p>
         </div>
-        <div class="buttonRow" id="QualityRow">
+
+        <div class="resumeCard"></div>
+
+        <div class="buttonRow">
             <button class="interview">Interview</button>
             <button class="trash">Trash</button>
         </div>
-        <div class="traversalRow">
+
+        <div class="buttonRow">
             <button class="back">Back</button>
             <button class="next">Next</button>
         </div>
+
     </main>
 
-<body>
-    
 </body>
-
-
 </html>
