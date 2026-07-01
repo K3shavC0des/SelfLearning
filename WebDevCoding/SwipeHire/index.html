@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwipeHire</title>
+    <style>
+        body {
+            background-color: beige;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-around;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+            background-color:cornflowerblue;
+        }
+
+        .resumeCard{
+            max-height: 500px;
+            max-width: 500px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color:darkgray;
+            text-align: center;
+            align-items: center;
+            
+        }
+
+        .buttonRow{
+            display: flex;
+            text-shadow: 2px;
+            border: 2px;
+            justify-content: center;
+            margin: 15px;
+            padding: 15px;
+
+        }
+
+        button {
+            padding: 15px;
+            transition: transform 0.3s ease;  
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+    </style>
+    <script>
+        let CurrentResume = 0;
+        let goodResumes = 0;
+        let badResumes
+        const resumes = [
+            {
+                name: "Alex Chen",
+                role: "Backend Intern Applicant",
+                bullets: [
+                "Built REST API in Flask serving 1k req/day",
+                "Reduced query latency 40% via PostgreSQL indexing",
+                "Shipped JWT auth and CI/CD on Render"
+                ],
+                skills: ["Python", "Flask", "PostgreSQL", "Docker"]
+            },
+
+            {
+                name: "Sarah Johnson",
+                role: "Frontend Intern Applicant",
+                bullets: [
+                "Built responsive websites with HTML, CSS, and JavaScript",
+                "Improved page load speed by 35%",
+                "Developed reusable React components"
+                ],
+                skills: ["HTML", "CSS", "JavaScript", "React"]
+            },
+
+            {
+                name: "Michael Patel",
+                role: "Machine Learning Intern Applicant",
+                bullets: [
+                "Trained image classification model with 94% accuracy",
+                "Cleaned and analyzed 50k-row dataset using Pandas",
+                "Visualized results using Matplotlib"
+                ],
+                skills: ["Python", "Pandas", "Scikit-learn", "Matplotlib"]
+            },
+
+            {
+                name: "Emily Davis",
+                role: "Data Science Intern Applicant",
+                bullets: [
+                "Built dashboard in Tableau",
+                "Created SQL queries for business reports",
+                "Automated data cleaning with Python"
+                ],
+                skills: ["SQL", "Python", "Tableau", "Excel"]
+            },
+
+            {
+                name: "David Kim",
+                role: "Mobile App Intern Applicant",
+                bullets: [
+                "Developed Android app in Kotlin",
+                "Integrated Firebase Authentication",
+                "Published beta app to testers"
+                ],
+                skills: ["Kotlin", "Android Studio", "Firebase", "Git"]
+            },
+
+            {
+                name: "Olivia Brown",
+                role: "Full Stack Intern Applicant",
+                bullets: [
+                "Built MERN stack web application",
+                "Designed MongoDB database schema",
+                "Deployed application on Vercel"
+                ],
+                skills: ["MongoDB", "Express", "React", "Node.js"]
+            }
+            ];
+
+            document.addEventListener("DOMContentLoaded", function(){
+                
+                function renderResume(index){
+                    //print out what is happening 
+                    
+                    console.log("Displaying Resume #"+ CurrentResume);
+                    const displayLocation = document.querySelector(".resumeCard");
+                    const resume = resumes[index];
+                    displayLocation.innerHTML = `
+                        <div class="personDetails">
+                            <h3>${resume.name} + ${resume.role}</h3>
+                        </div>
+                        <div class="bulletPoints">
+                            <ul>
+                                <li>${resume.bullets[0]}</li>
+                                <li>${resume.bullets[1]}</li>
+                                <li>${resume.bullets[2]}</li>
+                            </ul>
+                        </div>
+                        <div class="skills">
+                            <p>Skills: ${resume.skills[0]}, ${resume.skills[1]}, ${resume.skills[2]}, ${resume.skills[3]}</p>
+                        </div>
+                    `
+                    }
+
+                let hireButton = document.querySelector("good");
+                hireButton.addEventListener("click", function(){
+
+
+                });
+
+                renderResume(0);
+            });
+
+    </script>
+</head>
+    <header>
+        <h1>Keshav Kumar</h1>
+        <h1>SwipeHire</h1>
+    </header>
+
+    <main>
+        <div class="resumeCard">
+            <div class="personDetails">
+                <h3>NAME + ROLE</h3>
+            </div>
+            <div class="bulletPoints">
+                <ul>
+                    <li>BulletPoint1</li>
+                    <li>BulletPoint1</li>
+                    <li>BulletPoint1</li>
+                </ul>
+            </div>
+            <div class="skills">
+                <p>Skills: skill1+skill2+skill3+skill4</p>
+            </div>
+        </div>
+        <div class="buttonRow">
+            <button class="good">Hire</button>
+            <button class="bad">Trash</button>
+        </div>
+    </main>
+
+<body>
+    
+</body>
+
+
+</html>
